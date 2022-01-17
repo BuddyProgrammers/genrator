@@ -1,0 +1,595 @@
+
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+
+
+<ClickableTextFieldRound>:
+    MDTextFieldRound:
+        line_color:235/255,109/255,156/255,0
+        normal_color: 239/255,239/255,239/255,.4
+        color_active: 239/255,239/255,239/255,.5
+        font_size:'25sp'
+        id: text_field
+        hint_text: root.hint_text
+        text: root.text
+        password: root.passr
+
+
+
+<SelectPage>:
+    
+    Image:
+        source : "background.png"
+        allow_stretch:True
+        keep_ratio:False
+    MDNavigationLayout:
+        ScreenManager:
+            Screen:
+                BoxLayout:
+                    orientation:"vertical"
+                    pos_hint: {'center_x': .5, 'top': 1}
+                    height: self.minimum_height
+                    size_hint_y: None
+                    spacing:"40sp"
+                    MDToolbar:
+                        title: " "
+                        left_action_items:[['menu', lambda x: nav_drawer.set_state("open")]]
+                        md_bg_color:32/255,  29/255, 29/255, 1
+                        on_action_button: app.callback(self.icon)
+                    BoxLayout:
+                    BoxLayout:
+                    MDTextFieldRound:
+                        normal_color: .9, .9, .9, 1
+                        color_active: 1,1,1,1
+                        id: field_program
+                        pos_hint: {'center_x': .5, 'center_y': .6}
+                        size_hint_x: None
+                        width:self.parent.width*0.7
+                        font_size:"26sp"
+                        hint_text: "Program "
+                        on_focus: if self.focus: app.program.open()
+
+                    MDTextFieldRound:
+                        normal_color: .9, .9, .9, 1
+                        color_active: 1,1,1,1
+                        id: field_time
+                        pos_hint: {'center_x': .5, 'center_y': .6}
+                        size_hint_x: None
+                        font_size:"26sp"
+                        width:self.parent.width*0.7
+                        hint_text: "Shift "
+                        on_focus: if self.focus: app.shift.open()
+                    BoxLayout:
+                    SmoothButton:
+                        text:'TAKE ATTENDANCE'
+                        font_size:"25sp"
+                        size_hint_y:None
+                        size_hint_x:None
+                        height:"60sp"
+                        pos_hint:{'center_x':0.5, "center_y":0.5}
+                        width:self.parent.width*0.8
+                        markup:True
+                        bold:True
+                        on_press:
+                            app.qr_gen({"program":field_program.text,"timing":field_time.text})
+                            root.manager.current="cods"
+                    BoxLayout:
+                        size_hint_y:None
+                        height:"120sp"
+                        
+        MDNavigationDrawer:
+            id: nav_drawer
+            md_bg_color: get_color_from_hex("#f7f4e7")
+            ScrollView:
+
+                DrawerList:
+                    id: md_list
+<ItemDrawer>
+    theme_text_color: "Custom"
+    on_release: self.parent.set_color_item(self)
+
+    IconLeftWidget:
+        id: icon
+        icon: root.icon
+        theme_text_color: "Custom"            
+<CodePage>:
+    MDToolbar:
+        title: "Scan the QRCode"
+        md_bg_color:32/255,  29/255, 29/255, 1
+    Image:
+        source : "background.png"
+        allow_stretch:True
+        keep_ratio:False
+    BoxLayout:
+        orientation:"vertical"
+        
+        MDBoxLayout:
+            orientation:"vertical"
+            spacing :"20sp"
+            padding:"30sp","0sp","30sp","0sp"
+            Image:
+                source:"myqr.png"
+                allow_stretch:True
+            
+            SmoothButton:
+                text:'Export'
+                font_size:"25sp"
+                pos_hint:{'center_x':0.5, "center_y":0.35}
+                size_hint:0.7,None
+                height:"70sp"
+                markup:True
+                bold:True
+            BoxLayout:
+                size_hint:None,None
+
+<SmoothButton@Button>:
+    background_color :(235/255,109/255,156/255,0)
+    background_normal: ''
+    back_color:(0,0,0,1)
+    border_radius:10
+    color: (0,0,0,1)
+    canvas.before:
+        Color:
+            rgba:self.back_color
+        Line:
+            rounded_rectangle:(self.pos[0],self.pos[1],self.size[0],self.size[1],self.border_radius)
+            width :  3
+
+<MeraButton>:
+        
+    line_color:235/255,109/255,156/255,0
+    normal_color: 239/255,239/255,239/255,.4
+    color_active: 239/255,239/255,239/255,.5
+    
+    font_size:'25sp'
+<Sign_Up_Screen>:
+    Image:
+        source : "background.png"
+        allow_stretch:True
+        keep_ratio:False
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            orientation:'vertical'
+            BoxLayout:
+                orientation:'vertical'
+                
+                pos_hint:{"top":.9,"left":.8}
+                Button:
+                    size_hint : .1,.5
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                    text:"<"
+                    font_size: "30sp"
+                    color:[0,0,0,.5]
+                    on_release:
+                        app.manager.transition.direction = 'right'
+                        app.manager.current = 'inup'
+                Label:
+                    text:"signup"
+                    bold:True
+                    markup : True
+                    font_size:'30sp'
+                    color:[0,0,0,.7]
+            BoxLayout:
+                id : fpbox
+                orientation:'vertical'
+                pos_hint:{"top":1,"center_x":.5}
+                size_hint:.8,None
+                height:self.minimum_height
+                spacing:"20sp"
+                ClickableTextFieldRound:
+                    id : f_name
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: False
+                    height:boxyu1.height
+                    hint_text: "first name"
+                
+                ClickableTextFieldRound:
+                    id : l_name
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: False
+                    hint_text: "last name"
+                    height:boxyu1.height
+                Label:
+                    color : 0,0,0,0
+                    text : ""
+                ClickableTextFieldRound:
+                    id :phone_no
+                    hint_text: "phone no"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: False
+                    height:boxyu.height
+                    BoxLayout:
+                        pos_hint:{"right":.95,"bottom":1}
+                        id :boxyu
+                        size_hint :None,None
+                        height:self.minimum_height
+                        Button:
+                            size_hint :None,None
+                            height:"20sp"
+                            background_color :(235/255,109/255,156/255,0)
+                            background_normal: ''
+
+                            text:"Send OTP"
+                            font_size: "12sp"
+                            color:[0,0,0,.5]
+                            on_release:
+                                app.otpgen(phone_no.ids.text_field.text)
+                                root.start_timer()
+                ClickableTextFieldRound:
+                    id :otp_get
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: False
+                    hint_text:"Enter OTP"
+
+                    height:boxyu1.height
+                    BoxLayout:
+                        id :boxyu1
+                        pos_hint:{"right":.95,"bottom":1}
+                        size_hint :None,None
+                        height:self.minimum_height
+                        Label:
+                            id: otp_timing
+                            size_hint :None,None
+                            height:"30sp"
+                            text: root.time
+                            font_size: "12sp"
+                            color:[1,0,0,.5]
+                
+            BoxLayout:
+                pos_hint:{"right":.8,"top":1}
+                size_hint :None,None
+                Button:
+                    size_hint :None,None
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                   
+                    text:"resend OTP"
+                    font_size: "12sp"
+                    color:[0,0,0,.5]
+                    on_release:
+                        print("on_prog")
+            
+                
+            SmoothButton:
+                pos_hint : {"center_x": .5,"center_y":.5}
+                size_hint : .9,.25
+                text:"Proceed"
+                bold:True
+                markup : True
+                font_size:'25sp'
+                color:[0,0,0,.5]
+                on_release:
+                    app.user["f_name"]=f_name.ids.text_field.text
+                    app.user["l_name"]=l_name.ids.text_field.text
+                    app.user["phone_no"]=phone_no.ids.text_field.text
+                    app.manager.transition.direction = 'left'
+                    app.manager.current = 'change_passo' if int(otp_get.ids.text_field.text)==app.my_otp else 'forpass'
+
+        BoxLayout:
+            size_hint : 1,.65
+
+<ForPassScreen>:
+    Image:
+        source : "background.png"
+        allow_stretch:True
+        keep_ratio:False
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            orientation:'vertical'
+            BoxLayout:
+                orientation:'vertical'
+                
+                pos_hint:{"top":.9,"left":.8}
+                Button:
+                    size_hint : .1,.5
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                    text:"<"
+                    font_size: "30sp"
+                    color:[0,0,0,.5]
+                    on_release:
+                        app.manager.transition.direction = 'right'
+                        app.manager.current = 'signin'
+                Label:
+                    text:"signup"
+                    bold:True
+                    markup : True
+                    font_size:'30sp'
+                    color:[0,0,0,.7]
+            BoxLayout:
+                id : fpbox
+                orientation:'vertical'
+                pos_hint:{"top":1,"center_x":.5}
+                size_hint:.8,None
+                height:self.minimum_height
+                spacing:"20sp"
+                ClickableTextFieldRound:
+                    id :phone_no
+                    hint_text: "phone no"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: False
+                    height:boxyu.height
+                    BoxLayout:
+                        pos_hint:{"right":.95,"bottom":1}
+                        id :boxyu
+                        size_hint :None,None
+                        height:self.minimum_height
+                        Button:
+                            size_hint :None,None
+                            height:"20sp"
+                            background_color :(235/255,109/255,156/255,0)
+                            background_normal: ''
+
+                            text:"Send OTP"
+                            font_size: "12sp"
+                            color:[0,0,0,.5]
+                            on_release:
+                                app.otpgen(phone_no.ids.text_field.text)
+                                root.start_timer()
+                ClickableTextFieldRound:
+                    id :otp_get
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: False
+                    hint_text:"Enter OTP"
+
+                    height:boxyu1.height
+                    BoxLayout:
+                        id :boxyu1
+                        pos_hint:{"right":.95,"bottom":1}
+                        size_hint :None,None
+                        height:self.minimum_height
+                        Label:
+                            id: otp_timing
+                            size_hint :None,None
+                            height:"30sp"
+                            text: root.time
+                            font_size: "12sp"
+                            color:[1,0,0,.5]
+                
+            BoxLayout:
+                pos_hint:{"right":.8,"top":1}
+                size_hint :None,None
+                Button:
+                    size_hint :None,None
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                   
+                    text:"resend OTP"
+                    font_size: "12sp"
+                    color:[0,0,0,.5]
+                    on_release:
+                        print("on_prog")
+            
+                
+            SmoothButton:
+                pos_hint : {"center_x": .5,"center_y":.5}
+                size_hint : .9,.25
+                text:"Proceed"
+                bold:True
+                markup : True
+                font_size:'25sp'
+                color:[0,0,0,.5]
+                on_release:
+                    app.manager.transition.direction = 'left'
+                    app.manager.current = 'change_passo' if int(otp_get.ids.text_field.text)==app.my_otp else 'forpass'
+
+        BoxLayout:
+            size_hint : 1,.65
+    
+<Signin_signup>:
+    Image:
+        source : "background.png"
+        allow_stretch:True
+        keep_ratio:False
+    BoxLayout:
+        size_hint:.5,.6
+        pos_hint:{"center_y":.5,"center_x":.5}
+        spacing:"20sp"
+        orientation:"vertical"
+
+        
+        BoxLayout:
+            size_hint:1,.6
+        BoxLayout:
+            pos_hint:{"center_x":.5,"center_y":.5}
+            spacing:"20sp"
+            orientation:"vertical"
+            SmoothButton:
+                pos_hint : {"center_x": .5,"center_y":.5}
+                text:"SIGN UP"
+                on_release:
+                    app.manager.transition.direction = 'left'
+                    app.manager.current = 'signup'
+            SmoothButton:
+                pos_hint : {"center_x": .5,"center_y":.5}
+                text:"SIGN IN"
+                on_release:
+                    app.manager.transition.direction = 'left'
+                    app.manager.current = 'signin'
+        BoxLayout:
+<ClickableTextFieldRound>:
+    size_hint_y:None
+    MDTextFieldRound:
+        line_color:235/255,109/255,156/255,0
+        normal_color: 239/255,239/255,239/255,.4
+        color_active: 239/255,239/255,239/255,.5
+        font_size:'25sp'
+        id: text_field
+        hint_text: root.hint_text
+        text: root.text
+        password: root.passr
+        
+        
+
+    
+
+<SignScreen>:
+    Image:
+        source : "background.png"
+        allow_stretch:True
+        keep_ratio:False
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            orientation:'vertical'
+            BoxLayout:
+                orientation:'vertical'
+                
+                pos_hint:{"top":.9,"left":.8}
+                Button:
+                    size_hint : .1,.5
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                    text:"<"
+                    font_size: "30sp"
+                    color:[0,0,0,.5]
+                    on_release:
+                        app.manager.transition.direction = 'right'
+                        app.manager.current = 'inup'
+                Label:
+                    text:"Sign In"
+                    bold:True
+                    markup : True
+                    font_size:'30sp'
+                    color:[0,0,0,.7]
+            BoxLayout:
+                
+                orientation:'vertical'
+                pos_hint:{"center_y":.5,"center_x":.5}
+                size_hint:.8,.4
+                spacing:"20sp"
+                MDTextFieldRound:
+                    id : e_phone
+                    line_color:235/255,109/255,156/255,0
+                    normal_color: 239/255,239/255,239/255,.4
+                    color_active: 239/255,239/255,239/255,.5
+                    
+                    font_size:'25sp'
+                    hint_text: "Teacher ID"
+                ClickableTextFieldRound:
+                    id : p_pass
+                    hint_text: "Password"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: True
+                    size_hint_y:None
+                    height: eye_icon.height
+                    MDIconButton:
+                        id :eye_icon
+                        icon: "eye-off"
+                        ripple_scale: .5
+                        pos_hint: {"center_y": .4}
+                        pos: root.width*.8 - self.width + dp(8), 0
+                        on_release:
+                            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                            self.parent.passr = False if self.parent.passr is True else True
+            BoxLayout:
+                orientation:'horizontal'
+                pos_hint: {"center_x": .5, "center_y": .5} 
+                size_hint : .9,.4
+                
+                Button:
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    size_hint: 1, 1
+                    text:"forget your password ?"
+                    color:[0,0,0,.5]
+                    on_release:
+                        app.manager.transition.direction = 'left'
+                        app.manager.current = 'forpass'
+            SmoothButton:
+                pos_hint : {"center_x": .5,"center_y":.5}
+                size_hint : .9,.25
+                text:"Sign In"
+                bold:True
+                markup : True
+                font_size:'25sp'
+                color:[0,0,0,.5]
+                on_release:
+                    app.manager.current = 'sels' if root.check_phone(e_phone.text,p_pass.ids.text_field.text) else 'signin'
+        BoxLayout:
+            size_hint : 1,.65
+<ChangePassScreen>:
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            orientation:'vertical'
+            BoxLayout:
+                orientation:'vertical'
+                
+                pos_hint:{"top":.9,"left":.8}
+                Button:
+                    size_hint : .1,.5
+                    background_color :(235/255,109/255,156/255,0)
+                    background_normal: ''
+                    text:"<"
+                    font_size: "30sp"
+                    color:[0,0,0,.5]
+                    on_release:
+                        app.manager.transition.direction = 'right'
+                        app.manager.current = 'forpass'
+                Label:
+                    text:'create your password'
+                    bold:True
+                    markup : True
+                    font_size:'30sp'
+                    color:[0,0,0,.7]
+            BoxLayout:
+                
+                orientation:'vertical'
+                pos_hint:{"center_y":.5,"center_x":.5}
+                size_hint:.8,.4
+                spacing:"20sp"
+                ClickableTextFieldRound:
+                    id : passw
+                    hint_text: "New Password"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: True
+                    height: eye_icon.height
+                    MDIconButton:
+                        id :eye_icon
+                        icon: "eye-off"
+                        ripple_scale: .5
+                        pos_hint: {"center_y": .4}
+                        pos: root.width*.8 - self.width + dp(8), 0
+                        on_release:
+                            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                            self.parent.passr = False if self.parent.passr is True else True
+                ClickableTextFieldRound:
+                    id : repassw
+                    hint_text: "Re Enter Password"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    passr: True
+                    height: eye_icon.height
+                    MDIconButton:
+                        id :eye_icon
+                        icon: "eye-off"
+                        ripple_scale: .5
+                        pos_hint: {"center_y": .4}
+                        pos: root.width*.8 - self.width + dp(8), 0
+                        on_release:
+                            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                            self.parent.passr = False if self.parent.passr is True else True
+            BoxLayout:
+                orientation:'horizontal'
+                pos_hint: {"center_x": .5, "center_y": .5} 
+                size_hint : .9,.4
+                
+            SmoothButton:
+                pos_hint : {"center_x": .5,"center_y":.5}
+                size_hint : .9,.25
+                text:"proceed"
+                bold:True
+                markup : True
+                font_size:'25sp'
+                color:[0,0,0,.5]
+                on_release:
+                    app.manager.transition.direction = 'left'
+                    app.manager.current = 'signin' if passw.ids.text_field.text==repassw.ids.text_field.text else 'change_passo'
+                    app.user["passw"]=passw.ids.text_field.text
+                    print(app.user)
+                    app.add_User(app.user['f_name'],app.user['l_name'],app.user['phone_no'],app.user['passw'])
+        BoxLayout:
+            size_hint : 1,.65
